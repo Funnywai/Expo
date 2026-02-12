@@ -3,6 +3,14 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'rea
 import { Button, Card, DataTable, Portal, Dialog, Switch, Menu, Divider, SegmentedButtons } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserData, LaCounts, ScoreChange, GameState } from '@/src/types';
+import { RenameDialog } from '@/src/components/dialogs/rename-dialog';
+import { WinActionDialog } from '@/src/components/dialogs/win-action-dialog';
+import { SpecialActionDialog } from '@/src/components/dialogs/special-action-dialog';
+import { MultiHitDialog } from '@/src/components/dialogs/multi-hit-dialog';
+import { HistoryDialog } from '@/src/components/dialogs/history-dialog';
+import { SeatChangeDialog } from '@/src/components/dialogs/seat-change-dialog';
+import { ResetScoresDialog } from '@/src/components/dialogs/reset-scores-dialog';
+import { PayoutDialog } from '@/src/components/dialogs/payout-dialog';
 
 const generateInitialUsers = (): UserData[] => {
   const userCount = 4;
@@ -893,12 +901,85 @@ export default function Index() {
         </ScrollView>
       )}
 
-      {/* Dialogs will be added in subsequent commits */}
-      <Portal>
-        <Dialog visible={false} onDismiss={() => {}}>
-          <Dialog.Title>Placeholder</Dialog.Title>
-        </Dialog>
-      </Portal>
+      {/* Dialog Components */}
+      <RenameDialog
+        isOpen={isRenameDialogOpen}
+        onClose={() => setIsRenameDialogOpen(false)}
+        users={users}
+        onSave={handleSaveUserNames}
+      />
+      
+      {currentUserForWinAction && (
+        <WinActionDialog
+          isOpen={isWinActionDialogOpen}
+          onClose={() => {
+            setIsWinActionDialogOpen(false);
+            setCurrentUserForWinAction(null);
+          }}
+          mainUser={currentUserForWinAction}
+          users={users}
+          dealerId={dealerId}
+          consecutiveWins={consecutiveWins}
+          currentWinnerId={currentWinnerId}
+          onSave={handleSaveWinAction}
+          onLaunchMultiHit={handleLaunchMultiHitFromWinFlow}
+        />
+      )}
+
+      {currentUserForSpecialAction && (
+        <SpecialActionDialog
+          isOpen={isSpecialActionDialogOpen}
+          onClose={() => {
+            setIsSpecialActionDialogOpen(false);
+            setCurrentUserForSpecialAction(null);
+          }}
+          mainUser={currentUserForSpecialAction}
+          users={users}
+          onSave={handleExecuteSpecialAction}
+          onSaveZhaHu={handleExecuteZhaHuAction}
+        />
+      )}
+
+      <MultiHitDialog
+        isOpen={isMultiHitDialogOpen}
+        onClose={() => {
+          setIsMultiHitDialogOpen(false);
+          setMultiHitInitialLoserId(null);
+        }}
+        initialLoserId={multiHitInitialLoserId}
+        users={users}
+        dealerId={dealerId}
+        consecutiveWins={consecutiveWins}
+        onSave={handleExecuteMultiHitAction}
+      />
+
+      <HistoryDialog
+        isOpen={isHistoryDialogOpen}
+        onClose={() => setIsHistoryDialogOpen(false)}
+        history={history}
+        users={users}
+      />
+
+      <SeatChangeDialog
+        isOpen={isSeatChangeDialogOpen}
+        onClose={() => setIsSeatChangeDialogOpen(false)}
+        users={users}
+        onSave={handleSaveSeatChange}
+      />
+
+      <ResetScoresDialog
+        isOpen={isResetScoresDialogOpen}
+        onClose={() => setIsResetScoresDialogOpen(false)}
+        scoresToReset={scoresToReset}
+        users={users}
+      />
+
+      <PayoutDialog
+        isOpen={isPayoutDialogOpen}
+        onClose={() => setIsPayoutDialogOpen(false)}
+        users={users}
+        totalScores={totalScores}
+      />
     </View>
   );
 }
