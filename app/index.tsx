@@ -11,6 +11,7 @@ import { HistoryDialog } from '@/src/components/dialogs/history-dialog';
 import { SeatChangeDialog } from '@/src/components/dialogs/seat-change-dialog';
 import { ResetScoresDialog } from '@/src/components/dialogs/reset-scores-dialog';
 import { PayoutDialog } from '@/src/components/dialogs/payout-dialog';
+import { ScoreAnalyticsDashboard } from '@/src/components/analytics-dashboard';
 
 const generateInitialUsers = (): UserData[] => {
   const userCount = 4;
@@ -896,9 +897,13 @@ export default function Index() {
           </View>
         </ScrollView>
       ) : (
-        <ScrollView style={styles.scrollView}>
-          <Text style={styles.analyticsPlaceholder}>Analytics Dashboard (Coming Soon)</Text>
-        </ScrollView>
+        <ScoreAnalyticsDashboard
+          users={users}
+          history={history}
+          totalScores={totalScores}
+          laCounts={laCounts}
+          currentWinnerId={currentWinnerId}
+        />
       )}
 
       {/* Dialog Components */}
@@ -1097,11 +1102,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#16a34a',
-  },
-  analyticsPlaceholder: {
-    padding: 24,
-    textAlign: 'center',
-    fontSize: 16,
-    color: '#666',
   },
 });
