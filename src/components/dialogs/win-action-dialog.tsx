@@ -129,7 +129,7 @@ export function WinActionDialog({
         laBonus,
         total: base + dealerBonus + laBonus
     };
-  }, [value, targetUserId, isZimo, mainUser, users, currentWinnerId, dealerId, consecutiveWins, opponentUsers]);
+  }, [value, targetUserId, isZimo, mainUser, users, dealerId, consecutiveWins, opponentUsers]);
 
   const handleSave = () => {
     if (value && (targetUserId || isZimo)) {
@@ -201,7 +201,7 @@ export function WinActionDialog({
                 keyboardType="numeric"
                 value={value}
                 onChangeText={setValue}
-                placeholder="Enter a number"
+                placeholder="輸入番數"
                 style={styles.valueInput}
                 textAlign="center"
               />

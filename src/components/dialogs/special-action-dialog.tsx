@@ -132,7 +132,7 @@ export function SpecialActionDialog({ isOpen, onClose, mainUser, users, onSave, 
                   keyboardType="numeric"
                   value={amount}
                   onChangeText={setAmount}
-                  placeholder="Enter a number"
+                  placeholder="輸入番數"
                   style={styles.valueInput}
                   textAlign="center"
                 />
