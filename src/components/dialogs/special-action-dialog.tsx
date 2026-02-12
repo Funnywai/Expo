@@ -152,7 +152,7 @@ export function SpecialActionDialog({ isOpen, onClose, mainUser, users, onSave, 
                     onPress={handleClear}
                     style={styles.numpadButton}
                   >
-                    Clear
+                    清除
                   </Button>
                   <Button
                     mode="outlined"
